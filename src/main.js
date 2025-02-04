@@ -1,23 +1,26 @@
-// Game Name: 
-// Name: Chaavan Sure
-// Date: 2/2/2025
+// Code Practice: RNGolf
+// Name: 
+// Date:
+
+'use strict'
+
+// const { Physics } = require("phaser")
 
 let config = {
-    parent: 'myGame',
+    parent: "Game-container",
     type: Phaser.AUTO,
-    width: 960,
-    height: 640,
+    width: 640,
+    height: 960,
+    pixelArt: true,
     physics: {
         default: 'arcade',
         arcade: {
-            // debug: true
-            // gravity: {
-            //     x: 0,
-            //     y: 0
-            // }
+            debug: true
         }
     },
-    scene: [ Load, Title, Play, GameOver ]
+    scene: [ Load, Play ]
 }
 
 let game = new Phaser.Game(config)
+
+let { width, height } = game.config

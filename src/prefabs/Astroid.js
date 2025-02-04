@@ -1,0 +1,1 @@
+class Astrod extends Phaser.Physics.Arcade.Sprite {}
