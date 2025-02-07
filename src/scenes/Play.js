@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         }
 
         // rocket/astroid collision
-        this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
+        // this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
 
         // add score
         this.scoreText = this.add.text(16, 16, 'Score: 0', {
@@ -52,12 +52,19 @@ class Play extends Phaser.Scene {
             },
             loop: true,
         })
+
+        // Boost Bar
+        this.boostBar = this.add.graphics()
+
+        this.updateBoostBar()
     }
 
     update() {
         this.scrollbackground()
 
         this.rocketFSM.step()
+
+        this.updateBoostBar()
 
         this.asteroids.getChildren().forEach((asteroid) => {
             asteroid.update()
@@ -96,5 +103,25 @@ class Play extends Phaser.Scene {
         if (this.stars2.y >= this.game.config.height) {
             this.stars2.y = this.stars1.y - this.stars1.height
         }
+    }
+
+    updateBoostBar(){
+        const barWidth = 200
+        const barHeight = 20
+        const x = 16
+        const y = 50
+
+        this.boostBar.clear()
+
+        this.boostBar.fillStyle(0x000000, 1)
+        this.boostBar.fillRect(x, y, barWidth, barHeight)
+
+        const fillWidth = (this.rocket.boostEnergy / 100) * barWidth
+
+        this.boostBar.fillStyle(0x00ff00, 1)
+        this.boostBar.fillRect(x, y, fillWidth, barHeight)
+
+        this.boostBar.lineStyle(2, 0xffffff, 1)
+        this.boostBar.strokeRect(x, y, barWidth, barHeight)
     }
 }
