@@ -4,9 +4,15 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.score = 0
+
         // add parallax background
-        this.grass = this.add.image(0, 0, 'BG').setOrigin(0)
-            // this.grass.setRotation(1.5708)
+        this.background1 = this.add.image(0, 0, 'BG').setOrigin(0, 0)
+        this.background2 = this.add.image(0, -this.background1.height, 'BG').setOrigin(0, 0)
+
+        // Add parallax stars layer
+        this.stars1 = this.add.image(0, 0, 'Stars').setOrigin(0, 0);
+        this.stars2 = this.add.image(0, -this.stars1.height, 'Stars').setOrigin(0, 0);
         
         // add rocket
         this.rocket = new Rocket(this, width / 2, 850, 'rocket', 0)
@@ -21,12 +27,74 @@ class Play extends Phaser.Scene {
         }, this)
 
         // add astroids
+        this.asteroids = this.add.group();
+
+        // Spawn initial asteroids
+        for (let i = 0; i < 5; i++) {
+            const asteroid = new Astroid(this, Phaser.Math.Between(0, this.game.config.width), -100, 'astroid')
+            this.asteroids.add(asteroid)
+        }
 
         // rocket/astroid collision
-    
+        this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
+
+        // add score
+        this.scoreText = this.add.text(16, 16, 'Score: 0', {
+            fontSize: '24px',
+            fill: '#ffffff',
+        })
+
+        this.scoreTimer = this.time.addEvent({
+            delay: 500, // Update score every 100ms
+            callback: () => {
+                this.score += 1;
+                this.scoreText.setText(`Score: ${this.score}`)
+            },
+            loop: true,
+        })
     }
 
     update() {
+        this.scrollbackground()
+
         this.rocketFSM.step()
+
+        this.asteroids.getChildren().forEach((asteroid) => {
+            asteroid.update()
+        })
+    }
+
+    handleCollision(rocket, asteroid) {
+        // console.log('Collision detected!')
+        this.scene.start('GameOverScene', { score: this.score }) 
+    }
+
+    scrollbackground(){
+        const grassScrollSpeed = 0.5
+        const starsScrollSpeed = 1 // Parallax effect: stars move slower
+
+        // Move grass layers downward
+        this.background1.y += grassScrollSpeed
+        this.background2.y += grassScrollSpeed
+
+        // Loop grass layers
+        if (this.background1.y >= this.game.config.height) {
+            this.background1.y = this.background2.y - this.background2.height
+        }
+        if (this.background2.y >= this.game.config.height) {
+            this.background2.y = this.background1.y - this.background1.height
+        }
+
+        // Move stars layers downward
+        this.stars1.y += starsScrollSpeed
+        this.stars2.y += starsScrollSpeed
+
+        // Loop stars layers
+        if (this.stars1.y >= this.game.config.height) {
+            this.stars1.y = this.stars2.y - this.stars2.height
+        }
+        if (this.stars2.y >= this.game.config.height) {
+            this.stars2.y = this.stars1.y - this.stars1.height
+        }
     }
 }

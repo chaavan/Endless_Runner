@@ -6,6 +6,7 @@ class Load extends Phaser.Scene{
     preload(){
         this.load.path = './assets/img/'
         this.load.image('BG', 'background.jpg')
+        this.load.image('Stars', 'stars.png')
         this.load.image('astroid', 'astroid.png')
         this.load.spritesheet('rocket', 'rocket-sprite.png', {
             frameWidth: 32,
