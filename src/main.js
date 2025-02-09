@@ -1,10 +1,8 @@
-// Code Practice: RNGolf
-// Name: 
-// Date:
+// Code Practice: Rocket Runner
+// Name: Chaavan Sure
+// Date: 2/7/2025
 
 'use strict'
-
-// const { Physics } = require("phaser")
 
 let config = {
     parent: "Game-container",
@@ -18,7 +16,7 @@ let config = {
             debug: true
         }
     },
-    scene: [ Menu, Load, Play, GameOver ]
+    scene: [ Menu, Instructions, Load, Play, GameOver ]
 }
 
 let game = new Phaser.Game(config)
