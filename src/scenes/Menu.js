@@ -16,7 +16,7 @@ class Menu extends Phaser.Scene {
         }).setOrigin(0.5).setInteractive()
 
         startButton.on('pointerdown', () => {
-            this.scene.start('loadScene')
+            this.scene.start('loadScene', { nextScene: 'playScene' })
         })
 
         let instructionsButton = this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 50, 
@@ -26,11 +26,11 @@ class Menu extends Phaser.Scene {
         }).setOrigin(0.5).setInteractive()
 
         instructionsButton.on('pointerdown', () => {
-            this.scene.start('instructionsScene')
+            this.scene.start('loadScene', { nextScene: 'instructionsScene' })
         })
 
         this.input.keyboard.on('keydown-SPACE', () => {
-            this.scene.start('loadScene')
+            this.scene.start('loadScene', { nextScene: 'playScene' })
         })
     }
 }

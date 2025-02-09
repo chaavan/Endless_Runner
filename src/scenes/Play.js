@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         }
 
         // rocket/astroid collision
-        // this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
+        this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
 
         // add score
         this.scoreText = this.add.text(16, 16, 'Score: 0', {
