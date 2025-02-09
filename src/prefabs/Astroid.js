@@ -15,9 +15,14 @@ class Astroid extends Phaser.Physics.Arcade.Sprite {
     }
 
     resetPosition(scene) {
+        const asteroidWidth = this.displayWidth
+
+        const minX = asteroidWidth / 2
+        const maxX = scene.game.config.width - asteroidWidth / 2
+
         // Place asteroid at a random X position at the top of the screen
-        this.x = Phaser.Math.Between(0, scene.game.config.width);
-        this.y = -this.height; // Above the visible screen
+        this.x = Phaser.Math.Between(minX, maxX)
+        this.y = -this.height
 
         // Set a random speed
         this.speed = Phaser.Math.Between(100, 200);
