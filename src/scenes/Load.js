@@ -8,12 +8,16 @@ class Load extends Phaser.Scene{
     }
 
     preload(){
-        this.load.path = './assets/img/'
-        this.load.image('BG', 'background.jpg')
-        this.load.image('Stars', 'stars.png')
+        this.load.path = './assets/'
+        this.load.image('BG', 'img/background.png')
+        this.load.image('Stars', 'img/StarsOverlay.png')
+        this.load.image('Planets', 'img/PlanetsOverlay.png')
+        this.load.image('Tint', 'img/black.png')
+        this.load.image('backMenu', 'img/BackToMenuButton.png')
+        this.load.audio('BGMusic', 'audio/background-music.mp3' )
         // this.load.image('instructions', 'TBM')
-        this.load.image('astroid', 'astroid.png')
-        this.load.spritesheet('rocket', 'rocket-sprite.png', {
+        this.load.image('astroid', 'img/AsteroidOverlay.png')
+        this.load.spritesheet('rocket', 'img/rocket-sprite.png', {
             frameWidth: 32,
             frameHeight: 32,
         })

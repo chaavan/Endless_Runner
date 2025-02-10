@@ -8,6 +8,11 @@ class GameOver extends Phaser.Scene {
     }
 
     create() {
+        this.mainBackground = this.add.image(0, 0, 'BG').setOrigin(0)
+        this.background1 = this.add.image(0, 0, 'Planets').setOrigin(0)
+        this.stars1 = this.add.image(0, 0, 'Stars').setOrigin(0)
+        this.tint = this.add.image(0, 0, 'Tint').setOrigin(0)
+
         // Display "Game Over" text
         this.add.text(this.game.config.width / 2, this.game.config.height / 2 - 50, 'Game Over', {
             fontSize: '48px',

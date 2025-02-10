@@ -5,14 +5,23 @@ class Play extends Phaser.Scene {
 
     create() {
         this.score = 0
+        this.mainBackground = this.add.image(0, 0, 'BG').setOrigin(0)
 
         // add parallax background
-        this.background1 = this.add.image(0, 0, 'BG').setOrigin(0, 0)
-        this.background2 = this.add.image(0, -this.background1.height, 'BG').setOrigin(0, 0)
+        this.background1 = this.add.image(0, 0, 'Planets').setOrigin(0, 0)
+        this.background2 = this.add.image(0, -this.background1.height, 'Planets').setOrigin(0, 0)
+
+        // Add Background Music
+        this.backgroundMusic = this.sound.add('BGMusic', {
+            loop: true,
+            volume: 0.5
+        })
 
         // Add parallax stars layer
         this.stars1 = this.add.image(0, 0, 'Stars').setOrigin(0, 0);
         this.stars2 = this.add.image(0, -this.stars1.height, 'Stars').setOrigin(0, 0);
+
+        this.tint = this.add.image(0, 0, 'Tint').setOrigin(0)
         
         // add rocket
         this.rocket = new Rocket(this, width / 2, 850, 'rocket', 0)
@@ -36,7 +45,7 @@ class Play extends Phaser.Scene {
         }
 
         // rocket/astroid collision
-        // this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
+        this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
 
         // add score
         this.scoreText = this.add.text(16, 16, 'Score: 0', {
@@ -57,6 +66,8 @@ class Play extends Phaser.Scene {
         this.boostBar = this.add.graphics()
 
         this.updateBoostBar()
+
+        this.backgroundMusic.play()
     }
 
     update() {
@@ -72,17 +83,17 @@ class Play extends Phaser.Scene {
     }
 
     handleCollision(rocket, asteroid) {
-        // console.log('Collision detected!')
+        this.backgroundMusic.stop()
         this.scene.start('GameOverScene', { score: this.score }) 
     }
 
     scrollbackground(){
-        const grassScrollSpeed = 0.5
+        const planetScrollSpeed = 0.5
         const starsScrollSpeed = 1 // Parallax effect: stars move slower
 
         // Move grass layers downward
-        this.background1.y += grassScrollSpeed
-        this.background2.y += grassScrollSpeed
+        this.background1.y += planetScrollSpeed
+        this.background2.y += planetScrollSpeed
 
         // Loop grass layers
         if (this.background1.y >= this.game.config.height) {
