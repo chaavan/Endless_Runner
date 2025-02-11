@@ -40,7 +40,7 @@ class Play extends Phaser.Scene {
         }, this)
 
         // add astroids
-        this.asteroids = this.add.group();
+        this.asteroids = this.add.group()
 
         // Spawn initial asteroids
         for (let i = 0; i < 6; i++) {
@@ -94,7 +94,7 @@ class Play extends Phaser.Scene {
         asteroid.setVisible(false)
 
         if (this.scoreTimer) {
-            this.scoreTimer.remove(); // This stops the timer from running
+            this.scoreTimer.remove() // This stops the timer from running
         }
 
         this.asteroids.getChildren().forEach((asteroid) => {
