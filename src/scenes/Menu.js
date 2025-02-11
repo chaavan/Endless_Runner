@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene {
         this.background1 = this.add.image(0, 0, 'Planets').setOrigin(0)
         this.stars1 = this.add.image(0, 0, 'Stars').setOrigin(0)
         this.tint = this.add.image(0, 0, 'Tint').setOrigin(0)
+        this.clickSound = this.sound.add('clickAudio')
 
         if (!this.MenuMusic) {
             this.MenuMusic = this.sound.add('menuAudio', {
@@ -28,7 +29,7 @@ class Menu extends Phaser.Scene {
         .setInteractive()
 
         startButton.on('pointerdown', () => {
-            this.MenuMusic.stop()
+            this.clickSound.play()
             this.input.setDefaultCursor('default')
             this.startScene('playScene', {stopMusic: true })
         })
@@ -47,6 +48,7 @@ class Menu extends Phaser.Scene {
         .setInteractive()
 
         instructionsButton.on('pointerdown', () => {
+            this.clickSound.play()
             this.input.setDefaultCursor('default')
             this.startScene('instructionsScene', {stopMusic: false })
         })
@@ -60,7 +62,7 @@ class Menu extends Phaser.Scene {
         })
 
         this.input.keyboard.on('keydown-SPACE', () => {
-            this.MenuMusic.stop()
+            this.clickSound.play()
             this.input.setDefaultCursor('default')
             this.startScene('playScene', {stopMusic: true })
         })

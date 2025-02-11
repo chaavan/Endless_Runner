@@ -4,6 +4,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.sound.stopAll()
+        this.sound.play('explosionAudio', { volume: 0.7 })
+
         this.score = 0
         this.mainBackground = this.add.image(0, 0, 'BG').setOrigin(0)
 
@@ -40,13 +43,13 @@ class Play extends Phaser.Scene {
         this.asteroids = this.add.group();
 
         // Spawn initial asteroids
-        for (let i = 0; i < 5; i++) {
-            const asteroid = new Astroid(this, Phaser.Math.Between(0, this.game.config.width), -100, 'astroid')
+        for (let i = 0; i < 6; i++) {
+            const asteroid = new Astroid(this, Phaser.Math.Between(0, this.game.config.width), -100, 'astroid').setScale(0.75)
             this.asteroids.add(asteroid)
         }
 
         // rocket/astroid collision
-        // this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
+        this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
 
         // add score
         this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
@@ -86,7 +89,24 @@ class Play extends Phaser.Scene {
 
     handleCollision(rocket, asteroid) {
         this.backgroundMusic.stop()
-        this.scene.start('GameOverScene', { score: this.score }) 
+
+        rocket.setVisible(false)
+        asteroid.setVisible(false)
+
+        if (this.scoreTimer) {
+            this.scoreTimer.remove(); // This stops the timer from running
+        }
+
+        this.asteroids.getChildren().forEach((asteroid) => {
+            asteroid.destroy()
+        })
+
+        this.asteroids.clear(true, true) // Fully clear asteroids
+
+        this.sound.play('explosionAudio')
+
+        // Transition rocket to the explode state
+        this.rocketFSM.transition('explode')
     }
 
     scrollbackground(){
@@ -136,5 +156,25 @@ class Play extends Phaser.Scene {
 
         this.boostBar.lineStyle(2, 0xffffff, 1)
         this.boostBar.strokeRect(x, y, barWidth, barHeight)
+    }
+
+    startScene(targetScene, data) {
+        this.cameras.main.fadeOut(1000, 0, 0, 0)
+
+        if (data.stopMusic) {
+            this.tweens.add({
+                targets: this.menuMusic,
+                volume: 0,
+                duration: 1000, 
+                onComplete: () => {
+                    this.MenuMusic.stop()
+                    this.scene.start(targetScene, data)
+                }
+            })
+        } else {
+            this.time.delayedCall(1000, () => {
+                this.scene.start(targetScene, data)
+            })
+        }
     }
 }

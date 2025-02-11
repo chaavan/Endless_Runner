@@ -16,6 +16,9 @@ class Load extends Phaser.Scene{
         this.load.image('GameName', 'img/RocketRunner.png')
         this.load.audio('BGMusic', 'audio/background-music.mp3' )
         this.load.audio('menuAudio', 'audio/MenuAudio.mp3')
+        this.load.audio('explosionAudio', 'audio/explosion.mp3')
+        this.load.audio('clickAudio', 'audio/click.mp3')
+        this.load.audio('boostAudio', 'audio/boost.mp3')
         // this.load.image('instructions', 'TBM')
         this.load.image('astroid', 'img/AsteroidOverlay.png')
         this.load.spritesheet('rocketsBoost', 'img/RocketsBoost-sprite.png', {
@@ -26,6 +29,11 @@ class Load extends Phaser.Scene{
             frameWidth: 64,
             frameHeight: 64,
         })
+        this.load.spritesheet('explosion', 'img/RocketsCollision-sprite.png', {
+            frameWidth: 64,
+            frameHeight: 64,
+        })
+
     }
 
     create(){
@@ -41,6 +49,12 @@ class Load extends Phaser.Scene{
             frameRate: 8,
             repeat: 0,
             frames: this.anims.generateFrameNumbers('rocketsBoost', { start: 0, end: 6 }),
+        })
+        this.anims.create({
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 3 }),
+            frameRate: 5,
+            repeat: 0,
         })
         
         this.scene.start('menuScene')

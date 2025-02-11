@@ -23,6 +23,7 @@ class Rocket extends Phaser.Physics.Arcade.Sprite{
         scene.rocketFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
+            explode: new ExplodeState(),
             // dash: new BoostState(),
         }, [scene, this])   // pass these as arguments to maintain scene/object context in the FSM
     }
@@ -57,6 +58,10 @@ class IdleState extends State {
 }
 
 class MoveState extends State {
+    enter(scene, rocket){
+        rocket.isBoosting = false
+    }
+
     execute(scene, rocket) {
         const { left, right, shift } = scene.keys
 
@@ -65,9 +70,15 @@ class MoveState extends State {
             rocket.boostEnergy -= rocket.boostConsumptionRate;
             if (rocket.boostEnergy < 0) rocket.boostEnergy = 0 // Prevent negative energy
 
+            if (!rocket.isBoosting) {
+                rocket.boostSound = scene.sound.add('boostAudio', { loop: true, volume: 0.8 })
+                rocket.boostSound.play()
+                rocket.isBoosting = true
+            }
+
             // Set boosted velocity
             if (left.isDown || right.isDown) {
-                let moveDirection = new Phaser.Math.Vector2(0, 0);
+                let moveDirection = new Phaser.Math.Vector2(0, 0)
                 if (left.isDown) {
                     moveDirection.x = -1
                     rocket.direction = 'left'
@@ -87,6 +98,11 @@ class MoveState extends State {
             }
 
         } else {
+            if (rocket.isBoosting) {
+                rocket.boostSound.stop()
+                rocket.isBoosting = false
+            }
+
             // Regular movement logic
             if (left.isDown || right.isDown) {
                 let moveDirection = new Phaser.Math.Vector2(0, 0)
@@ -114,5 +130,32 @@ class MoveState extends State {
             rocket.boostEnergy += rocket.boostRegenRate
             if (rocket.boostEnergy > 100) rocket.boostEnergy = 100 // Cap at 100
         }
+    }
+}
+
+class ExplodeState extends State {
+    enter(scene, rocket) {
+        // Stop all movement
+        rocket.setVelocity(0)
+        rocket.setVisible(false) // Hide the rocket
+
+        // Destroy all asteroids
+        scene.asteroids.children.iterate((ast) => {
+            if (ast) ast.destroy()
+        });
+
+        scene.asteroids.clear(true, true)
+
+        // Play explosion animation
+        let explosion = scene.add.sprite(rocket.x, rocket.y, 'explosion').setScale(1.75)
+        explosion.play('explode')
+
+        // Transition to Game Over after explosion animation
+        explosion.on('animationcomplete', () => {
+            scene.time.delayedCall(300, ()=>{
+                explosion.destroy()
+                scene.scene.start('GameOverScene', { score: scene.score })
+            })
+        })
     }
 }

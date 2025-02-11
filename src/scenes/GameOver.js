@@ -8,18 +8,21 @@ class GameOver extends Phaser.Scene {
     }
 
     create() {
+        this.sound.stopAll()
+
         this.mainBackground = this.add.image(0, 0, 'BG').setOrigin(0)
         this.background1 = this.add.image(0, 0, 'Planets').setOrigin(0)
         this.stars1 = this.add.image(0, 0, 'Stars').setOrigin(0)
         this.tint = this.add.image(0, 0, 'Tint').setOrigin(0)
+        this.clickSound = this.sound.add('clickAudio')
 
-        if (!this.MenuMusic) {
-            this.MenuMusic = this.sound.add('menuAudio', {
-                loop: true,
-                volume: 0.5
-            })
-            this.MenuMusic.play()
-        }
+
+        this.MenuMusic = this.sound.add('menuAudio', {
+            loop: true,
+            volume: 0.5
+        })
+        this.MenuMusic.play()
+        
 
         // Display "Game Over" text
         this.add.text(this.game.config.width / 2, this.game.config.height / 2 - 150, 'Game Over', {
@@ -50,7 +53,8 @@ class GameOver extends Phaser.Scene {
         })
 
         restartButton.on('pointerdown', () => {
-            // this.MenuMusic.stop()
+            this.clickSound.play()
+            this.sound.stopAll()
             this.input.setDefaultCursor('default')
             this.startScene('playScene', {stopMusic: true })
         })
@@ -69,7 +73,7 @@ class GameOver extends Phaser.Scene {
         })
 
         menuButton.on('pointerdown', () => {
-            // this.MenuMusic.stop()
+            this.clickSound.play()
             this.input.setDefaultCursor('default')
             this.startScene('menuScene', {stopMusic: false })
         })

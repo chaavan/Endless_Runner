@@ -4,6 +4,7 @@ class Instructions extends Phaser.Scene {
     }
 
     create() {
+        this.clickSound = this.sound.add('clickAudio')
         this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'BG')
             .setOrigin(0.5)
 
@@ -21,6 +22,7 @@ class Instructions extends Phaser.Scene {
         })
 
         backButton.on('pointerdown', () => {
+            this.clickSound.play()
             this.input.setDefaultCursor('default')
             this.startScene('menuScene', {stopMusic: false })
         })

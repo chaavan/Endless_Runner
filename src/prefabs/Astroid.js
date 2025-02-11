@@ -10,6 +10,9 @@ class Astroid extends Phaser.Physics.Arcade.Sprite {
         this.speed = Phaser.Math.Between(100, 200); // Random speed between 100-200
         this.body.setVelocityY(this.speed);
 
+        // Set Tint
+        this.setRandomTint()
+
         // Set initial position
         this.resetPosition(scene);
     }
@@ -25,8 +28,15 @@ class Astroid extends Phaser.Physics.Arcade.Sprite {
         this.y = -this.height
 
         // Set a random speed
-        this.speed = Phaser.Math.Between(100, 200);
-        this.body.setVelocityY(this.speed);
+        this.speed = Phaser.Math.Between(100, 200)
+        this.body.setVelocityY(this.speed)
+
+        this.setRandomTint()
+    }
+
+    setRandomTint() {
+        const randomColor = Phaser.Display.Color.RandomRGB()
+        this.setTint(randomColor.color)
     }
 
     update() {
