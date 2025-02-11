@@ -21,10 +21,11 @@ class Play extends Phaser.Scene {
         this.stars1 = this.add.image(0, 0, 'Stars').setOrigin(0, 0);
         this.stars2 = this.add.image(0, -this.stars1.height, 'Stars').setOrigin(0, 0);
 
+        // Add Tint
         this.tint = this.add.image(0, 0, 'Tint').setOrigin(0)
         
         // add rocket
-        this.rocket = new Rocket(this, width / 2, 850, 'rocket', 0)
+        this.rocket = new Rocket(this, width / 2, 850, 'rockets', 0).setScale(1.75)
 
         // add keyboard input
         this.keys = this.input.keyboard.createCursorKeys()
@@ -45,11 +46,12 @@ class Play extends Phaser.Scene {
         }
 
         // rocket/astroid collision
-        this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
+        // this.physics.add.collider(this.rocket, this.asteroids, this.handleCollision, null, this)
 
         // add score
-        this.scoreText = this.add.text(16, 16, 'Score: 0', {
-            fontSize: '24px',
+        this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
+            fontFamily: 'JumperGradient',
+            fontSize: '32px',
             fill: '#ffffff',
         })
 
@@ -120,7 +122,7 @@ class Play extends Phaser.Scene {
         const barWidth = 200
         const barHeight = 20
         const x = 16
-        const y = 50
+        const y = 60
 
         this.boostBar.clear()
 

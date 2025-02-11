@@ -2,17 +2,6 @@ class Menu extends Phaser.Scene {
     constructor() {
         super('menuScene')
     }
-    preload(){
-        this.load.path = './assets/'
-        this.load.audio('menuAudio', 'audio/MenuAudio.mp3')
-        this.load.image('BG', 'img/background.png')
-        this.load.image('Stars', 'img/StarsOverlay.png')
-        this.load.image('Planets', 'img/PlanetsOverlay.png')
-        this.load.image('Tint', 'img/black.png')
-        this.load.image('PlayButton', 'img/PlayButton.png')
-        this.load.image('InstructionsButton', 'img/InstructionsButton.png')
-        this.load.image('GameName', 'img/RocketRunner.png')
-    }
 
     create() {
         this.mainBackground = this.add.image(0, 0, 'BG').setOrigin(0)
@@ -28,36 +17,29 @@ class Menu extends Phaser.Scene {
             this.MenuMusic.play()
         }
 
-    const gameName = this.add.image(325, 350, 'GameName')
+        const gameName = this.add.image(325, 350, 'GameName')
         .setOrigin(0.5)
         .setScale(0.35)
         .setInteractive()
-        // this.add.text(this.game.config.width / 2, this.game.config.height / 3, 'Rocket Runner', {
-        //     fontSize: '48px',
-        //     fill: '#ffffff'
-        // }).setOrigin(0.5)
 
         const startButton = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'PlayButton')
         .setOrigin(0.5)
         .setScale(0.2)
         .setInteractive()
 
-        // let startButton = this.add.text(this.game.config.width / 2, this.game.config.height / 2, 
-        //     'Press SPACE or Click to Start', {
-        //     fontSize: '24px',
-        //     fill: '#00ff00'
-        // }).setOrigin(0.5).setInteractive()
-
         startButton.on('pointerdown', () => {
             this.MenuMusic.stop()
-            this.startScene('loadScene', { nextScene: 'playScene', stopMusic: true })
+            this.input.setDefaultCursor('default')
+            this.startScene('playScene', {stopMusic: true })
         })
 
-        // let instructionsButton = this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 50, 
-        //     'Instructions', {
-        //     fontSize: '24px',
-        //     fill: '#ffff00'
-        // }).setOrigin(0.5).setInteractive()
+        startButton.on('pointerover', () => {
+            this.input.setDefaultCursor('pointer')
+        })
+
+        startButton.on('pointerout', () => {
+            this.input.setDefaultCursor('default')
+        })
 
         const instructionsButton = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 110, 'InstructionsButton')
         .setOrigin(0.5)
@@ -65,25 +47,33 @@ class Menu extends Phaser.Scene {
         .setInteractive()
 
         instructionsButton.on('pointerdown', () => {
-            this.startScene('loadScene', { nextScene: 'instructionsScene', stopMusic: false })
+            this.input.setDefaultCursor('default')
+            this.startScene('instructionsScene', {stopMusic: false })
+        })
+        
+        instructionsButton.on('pointerover', () => {
+            this.input.setDefaultCursor('pointer')
+        })
+
+        instructionsButton.on('pointerout', () => {
+            this.input.setDefaultCursor('default')
         })
 
         this.input.keyboard.on('keydown-SPACE', () => {
             this.MenuMusic.stop()
-            this.startScene('loadScene', { nextScene: 'playScene', stopMusic: true })
+            this.input.setDefaultCursor('default')
+            this.startScene('playScene', {stopMusic: true })
         })
     }
 
     startScene(targetScene, data) {
-        // Fade out the camera
-        this.cameras.main.fadeOut(1000, 0, 0, 0); // 1-second fade-out to black
+        this.cameras.main.fadeOut(1000, 0, 0, 0)
 
-        // Gradually lower the music volume
         if (data.stopMusic) {
             this.tweens.add({
                 targets: this.menuMusic,
                 volume: 0,
-                duration: 1000, // Matches the fade-out duration
+                duration: 1000, 
                 onComplete: () => {
                     this.MenuMusic.stop()
                     this.scene.start(targetScene, data)

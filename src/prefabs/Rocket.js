@@ -40,8 +40,8 @@ class Rocket extends Phaser.Physics.Arcade.Sprite{
 class IdleState extends State {
     enter(scene, rocket){
         rocket.setVelocity(0)
-        rocket.anims.play(`launch-up`)
-        rocket.anims.stop()
+        rocket.anims.play(`launch`)
+        // rocket.anims.stop()
     }
 
     execute(scene,rocket){
@@ -66,17 +66,25 @@ class MoveState extends State {
             if (rocket.boostEnergy < 0) rocket.boostEnergy = 0 // Prevent negative energy
 
             // Set boosted velocity
-            let moveDirection = new Phaser.Math.Vector2(0, 0);
-            if (left.isDown) {
-                moveDirection.x = -1
-                rocket.direction = 'left'
-            } else if (right.isDown) {
-                moveDirection.x = 1
-                rocket.direction = 'right'
+            if (left.isDown || right.isDown) {
+                let moveDirection = new Phaser.Math.Vector2(0, 0);
+                if (left.isDown) {
+                    moveDirection.x = -1
+                    rocket.direction = 'left'
+                    rocket.setAngle(-20)
+                } else if (right.isDown) {
+                    moveDirection.x = 1
+                    rocket.direction = 'right'
+                    rocket.setAngle(20)
+                }
+                moveDirection.normalize()
+                rocket.setVelocity(rocket.boostSpeed * moveDirection.x, 0)
+                rocket.anims.play(`boost`, true)
+            } else {
+                rocket.setAngle(0)
+                this.stateMachine.transition('idle')
+                return
             }
-            moveDirection.normalize()
-            rocket.setVelocity(rocket.boostSpeed * moveDirection.x, 0)
-            rocket.anims.play(`boost-${rocket.direction}`, true)
 
         } else {
             // Regular movement logic
@@ -85,14 +93,17 @@ class MoveState extends State {
                 if (left.isDown) {
                     moveDirection.x = -1
                     rocket.direction = 'left'
+                    rocket.setAngle(-10)
                 } else if (right.isDown) {
                     moveDirection.x = 1
                     rocket.direction = 'right'
+                    rocket.setAngle(10)
                 }
                 moveDirection.normalize();
                 rocket.setVelocity(rocket.rocketVelocity * moveDirection.x, 0)
-                rocket.anims.play(`launch-${rocket.direction}`, true)
+                rocket.anims.play(`launch`, true)
             } else {
+                rocket.setAngle(0)
                 this.stateMachine.transition('idle')
                 return
             }

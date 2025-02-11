@@ -3,10 +3,6 @@ class Load extends Phaser.Scene{
         super('loadScene')
     }
 
-    init(data){
-        this.nextScene = data.nextScene || 'playScene'
-    }
-
     preload(){
         this.load.path = './assets/'
         this.load.image('BG', 'img/background.png')
@@ -14,50 +10,39 @@ class Load extends Phaser.Scene{
         this.load.image('Planets', 'img/PlanetsOverlay.png')
         this.load.image('Tint', 'img/black.png')
         this.load.image('backMenu', 'img/BackToMenuButton.png')
+        this.load.image('PlayButton', 'img/PlayButton.png')
+        this.load.image('RetryButton', 'img/RetryButton.png')
+        this.load.image('InstructionsButton', 'img/InstructionsButton.png')
+        this.load.image('GameName', 'img/RocketRunner.png')
         this.load.audio('BGMusic', 'audio/background-music.mp3' )
+        this.load.audio('menuAudio', 'audio/MenuAudio.mp3')
         // this.load.image('instructions', 'TBM')
         this.load.image('astroid', 'img/AsteroidOverlay.png')
-        this.load.spritesheet('rocket', 'img/rocket-sprite.png', {
-            frameWidth: 32,
-            frameHeight: 32,
+        this.load.spritesheet('rocketsBoost', 'img/RocketsBoost-sprite.png', {
+            frameWidth: 64,
+            frameHeight: 64,
+        })
+        this.load.spritesheet('rockets', 'img/Rockets-sprite.png', {
+            frameWidth: 64,
+            frameHeight: 64,
         })
     }
 
     create(){
         this.anims.create({
-            key: 'launch-up',
+            key: 'launch',
             frameRate: 8,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('rocket', { start: 8, end: 11 }),
-        })
-        this.anims.create({
-            key: 'launch-right',
-            frameRate: 8,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('rocket', { start: 4, end: 7 }),
-        })
-
-        this.anims.create({
-            key: 'launch-left',
-            frameRate: 8,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('rocket', { start: 12, end: 15 }),
+            frames: this.anims.generateFrameNumbers('rockets', { start: 0, end: 6 }),
         })
         
         this.anims.create({
-            key: 'boost-right',
+            key: 'boost',
             frameRate: 8,
             repeat: 0,
-            frames: this.anims.generateFrameNumbers('rocket', { start: 24, end: 27 }),
-        })
-
-        this.anims.create({
-            key: 'boost-left',
-            frameRate: 8,
-            repeat: 0,
-            frames: this.anims.generateFrameNumbers('rocket', { start: 28, end: 31 }),
+            frames: this.anims.generateFrameNumbers('rocketsBoost', { start: 0, end: 6 }),
         })
         
-        this.scene.start(this.nextScene)
+        this.scene.start('menuScene')
     }
 }
