@@ -55,7 +55,7 @@ class Play extends Phaser.Scene {
         this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
             fontFamily: 'JumperGradient',
             fontSize: '32px',
-            fill: '#ffffff',
+            fill: '#335',
         })
 
         this.scoreTimer = this.time.addEvent({

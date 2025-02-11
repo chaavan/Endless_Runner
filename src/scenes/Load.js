@@ -14,6 +14,9 @@ class Load extends Phaser.Scene{
         this.load.image('RetryButton', 'img/RetryButton.png')
         this.load.image('InstructionsButton', 'img/InstructionsButton.png')
         this.load.image('GameName', 'img/RocketRunner.png')
+        this.load.image('leftArrow', 'img/left-arrow.png')
+        this.load.image('rightArrow', 'img/right-arrow.png')
+        this.load.image('shiftKey', 'img/shift.png')
         this.load.audio('BGMusic', 'audio/background-music.mp3' )
         this.load.audio('menuAudio', 'audio/MenuAudio.mp3')
         this.load.audio('explosionAudio', 'audio/explosion.mp3')
@@ -47,7 +50,7 @@ class Load extends Phaser.Scene{
         this.anims.create({
             key: 'boost',
             frameRate: 8,
-            repeat: 0,
+            repeat: -1,
             frames: this.anims.generateFrameNumbers('rocketsBoost', { start: 0, end: 6 }),
         })
         this.anims.create({

@@ -1,20 +1,25 @@
 class Astroid extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
-        super(scene, x, y, texture);
+        super(scene, x, y, texture)
 
         // Add to scene and physics system
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
+        scene.add.existing(this)
+        scene.physics.add.existing(this)
+
+        // Set Physics body
+        let radius = this.width * 0.5
+        this.body.setCircle(radius)
+        this.body.setOffset((this.width / 2) - radius, (this.height / 2) - radius + 30)
 
         // Set initial velocity
-        this.speed = Phaser.Math.Between(100, 200); // Random speed between 100-200
+        this.speed = Phaser.Math.Between(100, 200)
         this.body.setVelocityY(this.speed);
 
         // Set Tint
         this.setRandomTint()
 
         // Set initial position
-        this.resetPosition(scene);
+        this.resetPosition(scene)
     }
 
     resetPosition(scene) {

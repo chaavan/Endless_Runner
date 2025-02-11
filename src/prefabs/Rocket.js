@@ -4,7 +4,7 @@ class Rocket extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this)           // add Rocket to existing scene
         scene.physics.add.existing(this)   // add physics body to scene
 
-        this.body.setSize(this.width / 2, this.height / 2)
+        this.body.setSize(this.width / 2 - 3, this.height / 2 + 28)
         this.body.setCollideWorldBounds(true)
 
         // set custom Hero properties
@@ -65,13 +65,18 @@ class MoveState extends State {
     execute(scene, rocket) {
         const { left, right, shift } = scene.keys
 
+        let isMoving = left.isDown || right.isDown
+
         // Handle boosting logic
-        if (shift.isDown && rocket.boostEnergy > 0) {
+        if (shift.isDown && rocket.boostEnergy > 0 && isMoving) {
             rocket.boostEnergy -= rocket.boostConsumptionRate;
             if (rocket.boostEnergy < 0) rocket.boostEnergy = 0 // Prevent negative energy
 
             if (!rocket.isBoosting) {
-                rocket.boostSound = scene.sound.add('boostAudio', { loop: true, volume: 0.8 })
+                if(rocket.isBoosting){
+                    rocket.boostSound.stop()
+                }
+                rocket.boostSound = scene.sound.add('boostAudio', { loop: false, volume: 0.8 })
                 rocket.boostSound.play()
                 rocket.isBoosting = true
             }
@@ -99,12 +104,14 @@ class MoveState extends State {
 
         } else {
             if (rocket.isBoosting) {
-                rocket.boostSound.stop()
+                if (rocket.boostSound && rocket.boostSound.isPlaying) {
+                    rocket.boostSound.stop()
+                }
                 rocket.isBoosting = false
             }
 
             // Regular movement logic
-            if (left.isDown || right.isDown) {
+            if (isMoving) {
                 let moveDirection = new Phaser.Math.Vector2(0, 0)
                 if (left.isDown) {
                     moveDirection.x = -1
@@ -138,6 +145,13 @@ class ExplodeState extends State {
         // Stop all movement
         rocket.setVelocity(0)
         rocket.setVisible(false) // Hide the rocket
+
+        if (rocket.isBoosting) {
+            if (rocket.boostSound && rocket.boostSound.isPlaying) {
+                rocket.boostSound.stop()
+            }
+            rocket.isBoosting = false
+        }
 
         // Destroy all asteroids
         scene.asteroids.children.iterate((ast) => {

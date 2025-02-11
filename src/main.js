@@ -1,6 +1,11 @@
-// Code Practice: Rocket Runner
+// Game Name: Rocket Runner
 // Name: Chaavan Sure
 // Date: 2/7/2025
+//Hours Spent: 49 hours
+
+//Creative Tilt:
+    // Technically Intresting:
+    // Visual Style:
 
 'use strict'
 
