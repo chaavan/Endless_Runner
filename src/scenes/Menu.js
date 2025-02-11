@@ -67,10 +67,10 @@ class Menu extends Phaser.Scene {
             this.startScene('playScene', {stopMusic: true })
         })
 
-        let creditsButton =  this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 199, 
+        let creditsButton =  this.add.text(this.game.config.width / 2 + 2, this.game.config.height / 2 + 201, 
             'Credits', {
             fontSize: '32px',
-            fill: '#00ff00',
+            fill: '#ADD8E6',
         }).setOrigin(0.5).setInteractive()
 
         creditsButton.on('pointerdown', () => {

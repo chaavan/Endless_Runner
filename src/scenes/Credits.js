@@ -12,7 +12,55 @@ class Credits extends Phaser.Scene {
             fill: '#fff',
         }).setOrigin(0.5)
 
-        const backButton = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 400, 'backMenu')
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 - 300, 'Designed & Created By:', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#eee',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 - 250, 'Chaavan Sure', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#ccc',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 - 150, 'Assets:', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#eee',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 - 100, 'Chaavan Sure', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#ccc',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 , 'Programming:', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#eee',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 50, 'Chaavan Sure', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#ccc',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 150, 'Music/SFX:', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#eee',
+        }).setOrigin(0.5)
+
+        this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 200, 'Pixabay.com', {
+            fontSize: '32px',
+            fontFamily: 'JumperGradient',
+            fill: '#ccc',
+        }).setOrigin(0.5)
+
+        const backButton = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 350, 'backMenu')
         .setOrigin(0.5)
         .setScale(0.2)
         .setInteractive()
