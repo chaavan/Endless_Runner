@@ -5,7 +5,7 @@ class Load extends Phaser.Scene{
 
     preload(){
         this.load.path = './assets/'
-        this.load.image('BG', 'img/Background.png')
+        this.load.image('BG', 'img/BackgroundImage.png')
         this.load.image('Stars', 'img/StarsOverlay.png')
         this.load.image('Planets', 'img/PlanetsOverlay.png')
         this.load.image('Tint', 'img/black.png')
