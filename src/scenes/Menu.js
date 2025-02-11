@@ -66,6 +66,26 @@ class Menu extends Phaser.Scene {
             this.input.setDefaultCursor('default')
             this.startScene('playScene', {stopMusic: true })
         })
+
+        let creditsButton =  this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 199, 
+            'Credits', {
+            fontSize: '32px',
+            fill: '#00ff00',
+        }).setOrigin(0.5).setInteractive()
+
+        creditsButton.on('pointerdown', () => {
+            this.clickSound.play()
+            this.input.setDefaultCursor('default')
+            this.startScene('creditsScene', {stopMusic: false })
+        })
+
+        creditsButton.on('pointerover', () => {
+            this.input.setDefaultCursor('pointer')
+        })
+
+        creditsButton.on('pointerout', () => {
+            this.input.setDefaultCursor('default')
+        })
     }
 
     startScene(targetScene, data) {
