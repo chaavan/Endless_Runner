@@ -3,11 +3,6 @@ class Credits extends Phaser.Scene {
         super('creditsScene')
     }
 
-    preload(){
-        this.load.path = './assets/'
-        this.load.image('BG', 'img/background.png')
-    }
-
     create() {
         this.clickSound = this.sound.add('clickAudio')
         this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'BG').setOrigin(0.5)
